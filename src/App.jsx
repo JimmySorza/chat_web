@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getName } from './userNames';
-import { getCurrentPot, sendNameToServer } from './socket';
+import { getCurrentPot, sendGetOneToServer, sendNameToServer } from './socket';
 
 class App extends Component {
   componentDidMount() {
@@ -12,6 +12,16 @@ class App extends Component {
     dispatch({type: 'ASSIGNED_USERNAME', name});
     sendNameToServer(name)
   }
+
+  closeSnackbar = () => this.props.dispatch({type: 'ANOTHER_ONE_PITCHED_IN'});
+
+  getOne = () => {
+    const { dispatch, name } = this.props;
+    dispatch({
+      type: 'GET_ONE'
+    });
+    sendGetOneToServer(name)
+  };
 
   render() {
     return <div>hello</div>;
