@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import io from "socket.io-client";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const socket = io.connect("http://localhost:5000");
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = { msg: "" };
+  }
+
+  // obtiene el valor del input
+  onTextChange = e => {
+    this.setState({ msg: e.target.value });
+  };
+
+  // envia el mensaje al server
+  onMessageSubmit = () => {
+    socket.emit("chat message", this.state.msg);
+    this.setState({ msg: "" });
+  };
+
+  render() {
+    return (
+      <div>
+        <input onChange={e => this.onTextChange(e)} value={this.state.msg} />
+        <button onClick={this.onMessageSubmit}>Send</button>
+      </div>
+    );
+  }
 }
 
 export default App;
