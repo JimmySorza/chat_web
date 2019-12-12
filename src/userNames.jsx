@@ -1,5 +1,5 @@
-import Change from 'change';
+import Chance from 'chance';
 
-const nameGetter = new Change();
+const nameGetter = new Chance();
 
 export const getName = () => nameGetter.first();
