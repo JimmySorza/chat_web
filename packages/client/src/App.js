@@ -1,35 +1,37 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from 'react';
 import io from "socket.io-client";
 
 const socket = io.connect("http://localhost:5000");
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = { msg: "", chat: [], nickname: "" };
-  }
+function App() {
 
-  componentDidMount() {
+  const [msg, setMsg] = useState('');
+  const [chat, setChat] = useState([]);
+  const [nickname, setNickname] = useState('');
+
+  useEffect(() => {
     socket.on("chat message", ({ nickname, msg }) => {
-      this.setState({
-        chat: [...this.state.chat, { nickname, msg }]
-      });
-    });
-  }
+     setChat([...chat, { nickname, msg }])
 
-  onTextChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    });
+  });
+
+  const onTextChangeNick = e => {
+    setNickname(e.target.value)
+  };
+
+  const onTextChangeMsg = e => {
+    setMsg(e.target.value)
   };
 
   // envia el mensaje al server
-  onMessageSubmit = () => {
-    const { nickname, msg } = this.state;
+  const onMessageSubmit = () => {
     socket.emit("chat message", { nickname, msg });
-    this.setState({ msg: "" });
+    setMsg('')
   };
 
-  renderChat() {
-    const { chat } = this.state;
+  const renderChat =() =>
+  {
     return chat.map(({ nickname, msg }, idx) => (
       <div key={idx}>
         <span style={{ color: "green" }}>{nickname}: </span>
@@ -39,26 +41,25 @@ class App extends Component {
     ));
   }
 
-  render() {
-    return (
-      <div>
-        <span>Nickname</span>
-        <input
-          name="nickname"
-          onChange={e => this.onTextChange(e)}
-          value={this.state.nickname}
-        />
-        <span>Message</span>
-        <input
-          name="msg"
-          onChange={e => this.onTextChange(e)}
-          value={this.state.msg}
-        />
-        <button onClick={this.onMessageSubmit}>Send</button>
-        <div>{this.renderChat()}</div>
-      </div>
-    );
-  }
+
+  return (
+    <div>
+      <span>Nickname</span>
+      <input
+        name="nickname"
+        onChange={e => onTextChangeNick(e)}
+        value={nickname}
+      />
+      <span>Message</span>
+      <input
+        name="msg"
+        onChange={e => onTextChangeMsg(e)}
+        value={msg}
+      />
+      <button onClick={onMessageSubmit}>Send</button>
+      <div>{renderChat()}</div>
+    </div>
+  );
 }
 
 export default App;
