@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "install": "npm run installall --prefix ./packages/server",
     "start": "npm run dev --prefix ./packages/server"
   },
   "devDependencies": {
