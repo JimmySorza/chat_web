@@ -4,7 +4,7 @@
 
 ###### install 
 ```
-npm i
+npm run install
 ```
 
 ###### run
