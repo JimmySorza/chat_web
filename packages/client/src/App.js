@@ -98,7 +98,7 @@ function App() {
             {renderChat()}
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={10}>
           <Paper className={classes.paper}>
             <FormControl fullWidth variant="outlined">
               <TextField
@@ -111,7 +111,7 @@ function App() {
             </FormControl>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={2}>
           <Button variant="contained" color="primary" onClick={onMessageSubmit}>
             Enviar
           </Button>
